@@ -1,0 +1,290 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+
+\usepackage{bera}
+\usepackage{pdflscape}
+\usepackage{gantt} % http://www.martin-kumm.de/tex_gantt_package.php
+
+\usepackage{colortbl}
+\usepackage{xspace}
+\newcommand{\sen}{\mathrm{sen}\,\xspace}
+
+
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+
+\usepackage{listingsutf8}
+\lstdefinelanguage{pseudocode}
+ {morekeywords={se,senao,enquanto,repita,ate,para,retorne},
+  %keywordstyle=\fontfamily{fvm}\fontseries{b}\fontshape{b}\selectfont,
+  keywordstyle=\fontfamily{fvs}\fontseries{b}\selectfont\bfseries,
+  basicstyle=\footnotesize\fontfamily{fvs}\fontshape{n}\selectfont,% \footnotesize was before \fontfamily
+  commentstyle=\fontfamily{fvs}\selectfont\slshape,%
+  morecomment=[l][commentstyle]{//},
+  morecomment=[s][commentstyle]{{/*}{*/}},
+  sensitive=false,%
+  inputencoding=utf8,
+literate={á}{{\'a}}1
+         {Á}{{\'A}}1
+         {é}{{\'e}}1
+         {í}{{\'i}}1
+         {Í}{{\'I}}1
+         {ó}{{\'o}}1
+         {ú}{{\'u}}1
+         {à}{{\'a}}1
+         {À}{{\`a}}1
+         {ã}{{\~a}}1
+         {â}{{\^a}}1
+         {ê}{{\^e}}1
+         {õ}{{\~o}}1
+         {ô}{{\^o}}1
+         {ç}{{\c{c}}}1,
+  string=[d]"
+}[keywords,comments,strings]
+
+\lstset{%
+%backgroundcolor=\color{Gray},% /usr/share/texmf-texlive/tex/generic/dvips/colordvi.sty
+showstringspaces=false,%
+%%basicstyle=\fontfamily{cmtt}\fontshape{n}\selectfont,% \footnotesize was before \fontfamily
+%%commentstyle=\fontfamily{cmtt}\fontshape{it}\selectfont,%
+frame=none,%single,%
+texcl=true,%
+%extendedchars=\true,
+inputencoding=utf8,
+language=pseudocode
+}
+\makeatletter
+\define@key{MyCode}{width}[\linewidth]{\def\width{#1}}
+\define@key{MyCode}{title}[]{\def\algotitle{#1}}
+\define@choicekey*+{MyCode}{type}[\val\nr]{proc,func,algo,none}[none]{%
+\ifcase\nr\relax
+\def\type{Procedimento}
+\or
+\def\type{Função}
+\or
+\def\type{Algoritmo}
+\or
+{}
+\fi
+}{\@latex@error{Erroneous value for a choice key}
+  {Invalid value '#1' for key 'type' of family Mycode}%
+}
+\define@key{MyCode}{lstoptions}[]{\def\lstoptions{#1}}
+\presetkeys{MyCode}{width,type,lstoptions}{}
+\makeatother
+
+\lstnewenvironment{pseudo}[1][]%
+{  \setkeys{MyCode}{#1}
+   \noindent
+   \minipage[t]{\width}
+   \vspace{0cm}
+   %\noindent\rule[0.4ex]{\linewidth}{1pt}
+   \hrule
+   \ifdefined\algotitle
+     \vspace{0.2\baselineskip}
+     \ifdefined\type\relax
+           {\bfseries \type}
+     \fi
+     \algotitle
+     \vspace{0.2\baselineskip}
+     \hrule
+   \fi
+   \vspace{0.2\baselineskip}
+   \lstset{language=pseudocode,frame=none,mathescape=true,\lstoptions}}
+{\hrule\vspace{0.5\baselineskip} %\noindent\rule[0.1ex]{\linewidth}{1pt}
+ \vfill\endminipage}
+
+
+\usepackage{pgf,tikz}
+\usepackage{tikz}
+
+%%% http://tex.stackexchange.com/questions/60262/how-to-use-tikz-graph-and-tkz-qtree-without-conflict/60266#60266
+%%%
+\usepackage{tkz-graph}
+\input{patch-tkz-graph}
+\usepackage{tikz-qtree}
+%%%
+%%%
+
+\usepackage[shadow%,disable,%
+]{todonotes}
+
+\usetikzlibrary{shapes,fit,backgrounds,positioning,arrows,matrix,shadows,calc}
+\tikzstyle{stdarrow}=[->,-triangle 45]
+\tikzset{nonode/.style={rectangle,minimum size=1mm}}
+\tikzset{stnode/.style={rectangle, draw, thick,color=blue!40,
+    minimum size=0.8cm,top color= white,bottom color=blue!40,
+    drop shadow,
+    align=center,rounded corners=1mm}}
+
+\tikzset{ast/.style={circle, draw, thick,
+    minimum size=0.8cm,
+    inner color=white,
+    outer color=blue!40,
+    %fill=blue!25,
+    %drop shadow,
+    align=center}}
+\tikzset{ast2/.style={rectangle, draw, thick,
+    rounded corners=0.5mm,
+    minimum size=0.8cm,
+    inner color=white,
+    outer color=blue!40,
+    %fill=blue!25,
+    %drop shadow,
+    align=center}}
+
+\tikzset{manager/.style={rectangle, draw, very thick,
+    minimum size=1cm,minimum width=2cm,%fill=red,
+    top color=white,bottom color=red!80,
+    drop shadow,
+    align=center,rounded corners=1mm}}
+\tikzset{worker/.style={rectangle, draw, very thick,
+    minimum size=1cm,minimum width=2cm,%fill=brown,
+    top color=white,bottom color=blue!40,
+    drop shadow,
+    align=center,rounded corners=1mm}}
+ 
+
+\newcommand{\ledge}[1]{%
+  \draw[-,dotted] (#1.north west) to (#1.north);
+  \draw[-,dotted] (#1.north west) to (#1.south west);
+}
+
+
+\usepackage{csquotes}
+\usepackage[style=alphabetic,
+            backend=biber]{biblatex}
+\addbibresource{projeto.bib}
+
+
+
+\title{Linguagem {\em mark-up} para dados geofísicos históricos}
+\author{Mirelle Alves de Freitas (RA: )\\
+  Orientador: Jerônimo Cordoni Pellegrini}
+%  Co-orientador: Marcelo Bianchi (IAG/USP)}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  Desde 1915 estações brasileiras operaram gerando dados
+  em papel -- chamados de {\em magnetogramas} e {\em sismogramas}. Os
+  dados contidos nestes registros não podem ser usados facilmente para
+  análise, porque não estão sequer completamente digitalizados: há um
+  processo de 
+  digitalização em andamento, e espera-se que o acervo completo seja
+  transformado em imagens digitais.
+  Este projeto tem como objetivos (i) propor uma estrutura de dados para
+  representação de anotações em imagens de dados geofísicos; (ii)
+  implementar uma biblioteca para leitura e gravação desses dados;
+  (iii) implementação de um algoritmo para detecção de eventos nessas
+  imagens, gerando anotações automaticamente; e (iv)  implementar uma
+  interface simples para visualização dos metadados.
+\end{abstract}
+
+
+\begin{center}
+  \begin{minipage}{10cm}
+    \begin{center}
+      \textbf{Palavras-chave:} {\em mark-up}; processamento de imagens
+    \end{center}
+  \end{minipage}
+\end{center}
+
+\section{Introdução}
+
+No Brasil, estações sismológicas operaram entre 1976 e 1955, e
+observatórios magnéticos entre 1915 e 2007, produzindo uma grande
+quantidade de sismogramas e magnetogramas em papel. Esses registros, 
+além de estarem sofrendo efeitos deteriorantes do tempo, não podem ser
+usados para análise por métodos modernos, uma vez que não se encontram
+em formato digital.
+
+A digitalização dos registros permitiria XXXXX.
+
+
+
+\section{Metodologia de trabalho}
+
+
+
+\section{Objetivos e metas}
+
+O objetivo científico do projeto é contribuir para a preservação do
+registro histórico dos sismogramas e magnetogramas, além de
+dar um passo inicial para a futura análise desses dados, na forma de
+software voltado para a representação e visualização deles.
+
+Para a formação da aluna, o objetivo é exatamente o do programa PDPD;
+especificamente, esperamos que a aluna tome contato com a pesquisa
+em geofísica, através de sua inserção em um projeto {\em real} e
+{\em relevante}, e que desenvolva a capacidade de estudo e elaboração
+autônoma de soluções em computação aplicada.
+
+As metas são:
+\begin{itemize}
+\item[i) ] {\bf especificar} uma estrutura para representar metadados de anotações feitas em imagens digitalizadas
+  de sismogramas e magnetogramas;
+\item[ii) ] implementar uma {\bf biblioteca} para incluir e recuperar os
+  dados na estrutura definida;
+\item[iii) ] implementar {\em um} {\bf algoritmo} para tentar identificar
+  automaticamente alguma característica das imagens que seja
+  interessante do ponto de vista da geofísica;
+\item[iv) ] implementar {\bf interface} de visualização para {\em parte}
+  dos metadados, usando a biblioteca.
+\end{itemize}
+
+Não há compromisso em obter resultados de alta precisão no desempenho
+do algoritmo mencionado ma meta (iii), dado que a aluna é ingressante
+no BC\&T -- o objetivo desta meta é principalmente o de familiarizar
+a aluna com o trabalho de pesquisa na área.
+A meta (iv) poderá ser implementada de maneira simplificada, e para
+apenas parte das anotações (possivelmente só um campo).
+
+Todo o software produzido será disponibilizado com licença livre.
+
+\section{Cronograma}
+
+A tabela a seguir mostra o cronograma de atividades para a aluna. Além
+das metas já descritas, há duas atividades de revisão bibliográfica: a
+primeira com o foco em estruturas para armazenamento de metadados de
+imagens, e a segunda com o foco em algoritmos para processamento de
+imagens.
+
+\begin{center}
+\scalebox{0.85}{
+\begin{gantt}[fontsize=\small,titlefontsize=\small]{7}{10}
+\begin{ganttitle}
+  \numtitle{1}{1}{10}{1}
+\end{ganttitle}
+\ganttbar[pattern=none,fill=blue!40]{revisão biblio}{0}{1}
+\ganttbar[pattern=none,fill=blue!40]{especificação}{1}{1}
+\ganttbar[pattern=none,fill=blue!40]{biblioteca}{2}{2}
+\ganttbar[pattern=none,fill=blue!40]{revisão biblio}{4}{3}
+\ganttbar[pattern=none,fill=blue!40]{algoritmo}{5}{3}
+\ganttbar[pattern=none,fill=blue!40]{interface}{8}{2}
+\end{gantt}
+}
+\end{center}
+
+
+\section{Adequação do projeto à aluna}
+
+Salientamos que, embora ingressante na UFABC, a aluna já sabe
+programar e tem prática em desenvolvimento Web.
+
+\printbibliography
+
+\blfootnote{Texto e figuras produzidos integralmente em \LaTeX.}
+
+\end{document}
+
