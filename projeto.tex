@@ -9,8 +9,7 @@
 
 \usepackage{colortbl}
 \usepackage{xspace}
-\newcommand{\sen}{\mathrm{sen}\,\xspace}
-
+\usepackage{url}
 
 
 \newcommand\blfootnote[1]{%
@@ -202,19 +201,146 @@ language=pseudocode
 
 \section{Introdução}
 
-No Brasil, estações sismológicas operaram entre 1976 e 1955, e
-observatórios magnéticos entre 1915 e 2007, produzindo uma grande
-quantidade de sismogramas e magnetogramas em papel. Esses registros, 
-além de estarem sofrendo efeitos deteriorantes do tempo, não podem ser
-usados para análise por métodos modernos, uma vez que não se encontram
-em formato digital.
 
-A digitalização dos registros permitiria XXXXX.
+O centro de sismologia da Universidade de São Paulo vem operando
+estações sismográficas em todo território nacional desde 1976. De 1976
+a aproximadamente 1995 muitas das estações em operação utilizavam
+sensores de período curto e registradores analógicos (Figura~\ref{teledyne}). Tais
+registros em papel tem sido guardados pelo centro da USP e, desde 2014
+vem sendo feito um esforço para realizarmos a catalogação,
+digitalização e disponibilização do acervo destes registros
+históricos~\cite{dados-raros}.
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.35]{registrador.png}
+\includegraphics[scale=0.35]{sensor.png}
+\end{center}
+\label{teledyne}
+\caption{Registrador Teledyne modelo Portacorder (esquerda) e sensor
+  Willmore MKII (direita) utilizados em diversas estações operadas
+  pelo IAG/USP de 1976 à 1990. O equipamento é capaz de filtrar o
+  sinal emitido pelo sensor por um sistema de filtros passa-banda e
+  registra-lo em papel. O tempo de registro por folha podia ser
+  regulado de 1.9 horas a 120 horas. O relógio do equipamento era
+  aferido utilizando-se rádios relógio mundiais como a WWV no
+  Colorado/US que era então super-imposto nos registros em intervalos
+  ajustáveis de hora, minuto, 1 segundo ou 10 segundos.}
+\end{figure}
+Os registros em papel (Figura~\ref{sismograma}) eram analisados um a um com o auxílio
+de lupas, réguas de leitura e de conversão de centímetros em amplitude
+de vibração do solo. Marcações de tempo eram interpretadas para aferir
+o relógio do instrumento, garantindo assim uma precisão de décimos a
+centésimos de segundo. Os tempos de chegadas das ondas sísmicas (fases
+P, S ou de Superfície) emitidas por terremotos registradas pelas
+estações eram então determinados. Com os tempos de chegada em mais de
+uma estação determinavam-se Epicentros de tremores, que eram então
+investigados buscando determinar as suas causas e compunham então o
+Boletim Sísmico Brasileiro (BSB) e mesmo, em 1982 permitiram o
+IAG/USP, em parceria com outras instituições do Brasil confeccionar o
+livro Sismicidade do Brasil, ganhador do prêmio Jabuti de 1985 na área
+de Ciências Exatas~\cite{sismicidade-brasil}.
+
+Parte do projeto de digitalização deste acervo visa permitir novamente
+que sismólogos de todo o Brasil e mesmo de outras instituições
+mundiais tenham novamente acesso aos dados, sendo capazes de
+reanalisar os registros e mesmo, validar pesquisas anteriormente
+feitas. Neste processo, é necessário além de digitalizar os registros
+(tarefa que esta sendo feita por alunos no IAG/USP) desenvolver
+metodologias e ferramentas de análises.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.26]{sismograma.jpg}
+\label{sismograma}
+\caption{Sismograma teste digitalizado. O registro em questões foi feito pela estação ITR em 1991. Cada sismograma é identificado por um código de barras (canto direito inferior), normalmente contém metadados na parte superior e pode ter sido já interpretado (marcas a lápis sobre o registro). No registro em questões podemos observar as ondas proveniente de um abalo provavelmente regional aproximadamente no centro do registro (área com maior “densidade” de tinta no centro-esquerdo da folha).}
+\end{center}
+\end{figure}
+
+
+O processo de disponibilizar os sismogramas carece do desenvolvimento
+de técnicas especificas para permitir o processamento das imagens como
+se fossem registros em papel, implicando assim em: (a) Estabelecer na
+imagem um sistema de referência permitindo ao usuário realizar
+leituras de tempo e amplitude da onda e (b) Permitir que o usuário
+realizar anotação em determinadas posições da imagem. Ambas
+informações devem de certa forma serem associados a cada imagem e
+tecnologias como cabeçalhos EXIF ou mesmo encapsulamento SVG devem ser
+estudadas para serem estendidas tentando suprir assim as necessidades
+do projeto. 
+
+
+
+
+O processo de estabelecer o sistema de referência na imagem pode ser
+auxiliado pela utilização de algoritmos simples de processamento e
+reconhecimento de padrões especialmente designados para este fim. As
+marcas de tempo por exemplo (Figura 3) podem ser extraídas pela
+correlação cruzadas de uma amostra do padrão de tempo com a própria
+imagem, auxiliando assim o usuário a criar o sistema de referência de
+tempo. O sistema de referência da escala de amplitude deve ser feito
+utilizando referências externas (marcas de controle na foto não
+pertencentes ao sinal) para converter pixels em cm na foto) e utilizar
+assim agora os parâmetros de ganho (disponíveis nos metadados da
+imagem) para converter de cm para amplitude de vibração do solo.
+
+Capacidades de mark-up a serem desenvolvidas podem inicialmente
+habilitar a anotação da imagem com marcas de texto livre, e marcas de
+localização hipocentrais e leituras de fases. As marcas de localização
+hipocentrais devem implementar as seguintes propriedades: Longitude,
+Latitude, Profundidade, Hora de Origem e  Magnitude. As leituras de
+fases, que podem ou não serem associados a localizações hipocentrais
+devem implementar as seguintes propriedades: Tempo, Amplitude e Tipo
+(fase P, S e Superficial).
+
+\begin{figure}
+  \begin{center}
+    \includegraphics{detalhe.png}
+    \label{detalhe}
+    \caption{Detalhe do sismograma apresentado na Figura 2 mostrando as marcações
+      de tempo feitas pelo Portacorder. As marcações de tempo eram
+      superimpostas no sinal pelo instrumento e tem um formato retangular
+      onde a sua largura indica o tipo de marca. A marca destacada
+      corresponde aos tempos de minuto cheio. Tais marcas podem facilmente
+      serem automaticamente identificadas por algorítimos de
+      auto-correlação de uma amostra do sinal extraído da própria imagem
+      com ela mesma.}
+  \end{center}
+\end{figure}
+
+Ao final, o processo de migrar o formato os dados analógicos dos
+sismogramas em papel requer a aplicação de tecnologias existentes de
+forma a permitir ao usuário que o dado volte a ser utilizado ao seu
+máximo. Esses dados históricos cobrem um período histórico importante
+da sismicidade brasileira. Eles são os dados brutos de diversos
+estudos realizados no Brasil e caso sejam perdidos ou, não seja mais
+possível analisá-los não será mais possível validar novas pesquisas
+sendo desenvolvidas utilizado o BSB, como por exemplo análises de
+risco sísmico e mesmo estudos de sismicidade que buscam compreender
+como que esforços tectônicos interagem com a placa Sul Americana,
+gerando assim o padrão e sismicidade observado no Brasil nos últimos
+35 anos (Figura~\ref{sismicidade}).
+
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.4]{mapa.png}
+    \label{sismicidade}
+    \caption{Sismicidade brasileira de 1720-2015/02 como reportado
+      pelo BSB preparado pelo centro de sismologia da Universidade de
+      São Paulo. Cada círculo no mapa indica um sismo catalogado pelo
+      BSB. Os sismos históricos são sismos determinados por pesquisas
+      macro-sísmicas enquanto que sismos em vermelho são sismos
+      determinados instrumentalmente, via registros em papel ou em
+      forma digital a partir de 1992-1995. O tamanho do círculo indica
+      da magnitude do evento na escala Richter de magnitudes.}
+  \end{center}
+\end{figure}
 
 
 
 \section{Metodologia de trabalho}
 
+\cite{gonzalez} \cite{petrou}
 
 
 \section{Objetivos e metas}
