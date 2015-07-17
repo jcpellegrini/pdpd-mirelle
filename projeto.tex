@@ -165,8 +165,8 @@ language=pseudocode
 
 
 
-\title{Linguagem {\em mark-up} para dados geofísicos históricos}
-\author{Mirelle Alves de Freitas (RA: )\\
+\title{Preservação digital de dados geofísicos históricos}
+\author{Mirelle Alves de Freitas (RA: 21075015)\\
   Orientador: Jerônimo Cordoni Pellegrini}
 %  Co-orientador: Marcelo Bianchi (IAG/USP)}
 
@@ -194,7 +194,8 @@ language=pseudocode
 \begin{center}
   \begin{minipage}{10cm}
     \begin{center}
-      \textbf{Palavras-chave:} {\em mark-up}; processamento de imagens
+      \textbf{Palavras-chave:} {\em mark-up}; processamento de
+      imagens, sismologia
     \end{center}
   \end{minipage}
 \end{center}
@@ -214,8 +215,6 @@ históricos~\cite{dados-raros}.
 \begin{center}
 \includegraphics[scale=0.35]{registrador.png}
 \includegraphics[scale=0.35]{sensor.png}
-\end{center}
-\label{teledyne}
 \caption{Registrador Teledyne modelo Portacorder (esquerda) e sensor
   Willmore MKII (direita) utilizados em diversas estações operadas
   pelo IAG/USP de 1976 à 1990. O equipamento é capaz de filtrar o
@@ -225,6 +224,8 @@ históricos~\cite{dados-raros}.
   aferido utilizando-se rádios relógio mundiais como a WWV no
   Colorado/US que era então super-imposto nos registros em intervalos
   ajustáveis de hora, minuto, 1 segundo ou 10 segundos.}
+\label{teledyne}
+\end{center}
 \end{figure}
 Os registros em papel (Figura~\ref{sismograma}) eram analisados um a um com o auxílio
 de lupas, réguas de leitura e de conversão de centímetros em amplitude
@@ -246,27 +247,32 @@ mundiais tenham novamente acesso aos dados, sendo capazes de
 reanalisar os registros e mesmo, validar pesquisas anteriormente
 feitas. Neste processo, é necessário além de digitalizar os registros
 (tarefa que esta sendo feita por alunos no IAG/USP) desenvolver
-metodologias e ferramentas de análises.
-
-\begin{figure}
+metodologias e ferramentas de análise.
+\begin{figure}[htb]
   \begin{center}
-    \includegraphics[scale=0.26]{sismograma.jpg}
+    \includegraphics[scale=0.25]{sismograma.jpg}
+\caption{Sismograma teste digitalizado. O registro em questões foi
+  feito pela estação ITR em 1991. Cada sismograma é identificado por
+  um código de barras (canto direito inferior), normalmente contém
+  metadados na parte superior e pode ter sido já interpretado (marcas
+  a lápis sobre o registro). No registro em questões podemos observar
+  as ondas proveniente de um abalo provavelmente regional
+  aproximadamente no centro do registro (área com maior “densidade” de
+  tinta no centro-esquerdo da folha).}
 \label{sismograma}
-\caption{Sismograma teste digitalizado. O registro em questões foi feito pela estação ITR em 1991. Cada sismograma é identificado por um código de barras (canto direito inferior), normalmente contém metadados na parte superior e pode ter sido já interpretado (marcas a lápis sobre o registro). No registro em questões podemos observar as ondas proveniente de um abalo provavelmente regional aproximadamente no centro do registro (área com maior “densidade” de tinta no centro-esquerdo da folha).}
 \end{center}
 \end{figure}
-
-
 O processo de disponibilizar os sismogramas carece do desenvolvimento
 de técnicas especificas para permitir o processamento das imagens como
 se fossem registros em papel, implicando assim em: (a) Estabelecer na
 imagem um sistema de referência permitindo ao usuário realizar
 leituras de tempo e amplitude da onda e (b) Permitir que o usuário
 realizar anotação em determinadas posições da imagem. Ambas
-informações devem de certa forma serem associados a cada imagem e
-tecnologias como cabeçalhos EXIF ou mesmo encapsulamento SVG devem ser
-estudadas para serem estendidas tentando suprir assim as necessidades
-do projeto. 
+informações devem de certa forma ser associadas a cada imagem e
+tecnologias como cabeçalhos EXIF~\cite{exif} ou mesmo encapsulamento
+SVG~\cite{svg}, que devem ser estudadas para serem estendidas tentando
+suprir assim as necessidades do projeto. 
+
 
 
 
@@ -274,7 +280,7 @@ do projeto.
 O processo de estabelecer o sistema de referência na imagem pode ser
 auxiliado pela utilização de algoritmos simples de processamento e
 reconhecimento de padrões especialmente designados para este fim. As
-marcas de tempo por exemplo (Figura 3) podem ser extraídas pela
+marcas de tempo por exemplo (Figura~\ref{detalhe}) podem ser extraídas pela
 correlação cruzadas de uma amostra do padrão de tempo com a própria
 imagem, auxiliando assim o usuário a criar o sistema de referência de
 tempo. O sistema de referência da escala de amplitude deve ser feito
@@ -288,15 +294,14 @@ habilitar a anotação da imagem com marcas de texto livre, e marcas de
 localização hipocentrais e leituras de fases. As marcas de localização
 hipocentrais devem implementar as seguintes propriedades: Longitude,
 Latitude, Profundidade, Hora de Origem e  Magnitude. As leituras de
-fases, que podem ou não serem associados a localizações hipocentrais
+fases, que podem ou não serem associadas a localizações hipocentrais
 devem implementar as seguintes propriedades: Tempo, Amplitude e Tipo
 (fase P, S e Superficial).
 
 \begin{figure}
   \begin{center}
-    \includegraphics{detalhe.png}
-    \label{detalhe}
-    \caption{Detalhe do sismograma apresentado na Figura 2 mostrando as marcações
+    \includegraphics[scale=1.1]{detalhe.png}
+    \caption{Detalhe do sismograma apresentado na Figura~\ref{sismograma} mostrando as marcações
       de tempo feitas pelo Portacorder. As marcações de tempo eram
       superimpostas no sinal pelo instrumento e tem um formato retangular
       onde a sua largura indica o tipo de marca. A marca destacada
@@ -304,6 +309,7 @@ devem implementar as seguintes propriedades: Tempo, Amplitude e Tipo
       serem automaticamente identificadas por algorítimos de
       auto-correlação de uma amostra do sinal extraído da própria imagem
       com ela mesma.}
+    \label{detalhe}
   \end{center}
 \end{figure}
 
@@ -321,10 +327,9 @@ gerando assim o padrão e sismicidade observado no Brasil nos últimos
 35 anos (Figura~\ref{sismicidade}).
 
 
-\begin{figure}
+\begin{figure}[htb]
   \begin{center}
     \includegraphics[scale=0.4]{mapa.png}
-    \label{sismicidade}
     \caption{Sismicidade brasileira de 1720-2015/02 como reportado
       pelo BSB preparado pelo centro de sismologia da Universidade de
       São Paulo. Cada círculo no mapa indica um sismo catalogado pelo
@@ -333,14 +338,11 @@ gerando assim o padrão e sismicidade observado no Brasil nos últimos
       determinados instrumentalmente, via registros em papel ou em
       forma digital a partir de 1992-1995. O tamanho do círculo indica
       da magnitude do evento na escala Richter de magnitudes.}
+    \label{sismicidade}
   \end{center}
 \end{figure}
 
 
-
-\section{Metodologia de trabalho}
-
-\cite{gonzalez} \cite{petrou}
 
 
 \section{Objetivos e metas}
@@ -378,6 +380,21 @@ apenas parte das anotações (possivelmente só um campo).
 
 Todo o software produzido será disponibilizado com licença livre.
 
+\section{Metodologia de trabalho}
+
+Este trabalho é essencialmente exploratório, consituindo pesquisa
+aplicada de Computação em Sismologia. A aluna deverá realizar revisão
+bibliográfica básica sobre representação de metadados em imagens e
+em reconhecimento de padrões (de maneira limitada e direcionada pelo
+orientador), seguida de implementações.
+
+Especificamente, a aluna estudará modos de encapsulamento de metadados
+em imagens, a fim de definir o padrão para markup; implementará um
+protótipo simples desse padrão; estudará alguns algoritmos simples
+para processamento de imagens~\cite{gonzalez,burger}; e implementará um
+destes algoritmos.
+
+
 \section{Cronograma}
 
 A tabela a seguir mostra o cronograma de atividades para a aluna. Além
@@ -406,11 +423,15 @@ imagens.
 \section{Adequação do projeto à aluna}
 
 Salientamos que, embora ingressante na UFABC, a aluna já sabe
-programar e tem prática em desenvolvimento Web.
+programar e tem prática em desenvolvimento Web. Além disso,
+não pretendemos que seja necessário utilizar quaisquer técnicas difícies
+de processamento de imagens (a aluna poderá, por exemplo, usar apenas
+técnicas básicas no domínio espacial).
 
 \printbibliography
 
-\blfootnote{Texto e figuras produzidos integralmente em \LaTeX.}
+\blfootnote{Texto e figuras produzidos integralmente em \LaTeX, exceto
+  fotos.}
 
 \end{document}
 
